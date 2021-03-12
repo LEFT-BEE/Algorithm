@@ -1,5 +1,8 @@
 package Inerface_form;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 class Node<E> {
 	E data;
 	Node<E> next;
@@ -22,7 +25,7 @@ public class S_LinkList<E> implements List<E> {
 			this.tail = null;
 			this.size = 0;			
 		}
-		public Node<E> search(int index){
+		private Node<E> search(int index){
 			//잘못된 범위일시
 			if(index < 0 || index >= size) {throw new IndexOutOfBoundsException();}
 			Node<E> x =head;
@@ -54,7 +57,7 @@ public class S_LinkList<E> implements List<E> {
 				return;
 			}
 			tail.next = newNode;
-			newNode = tail;
+			tail = newNode;
 			size++;
 		}
 		public void add(int index, E value) {
@@ -137,6 +140,7 @@ public class S_LinkList<E> implements List<E> {
 				return true;
 			}
 		}
+		
 		public E get(int index) {
 			return search(index).data;
 		}
@@ -146,8 +150,70 @@ public class S_LinkList<E> implements List<E> {
 			replace.data = null;
 			replace.data = value;			
 		}
+		public int indexOf(Object value) {
+			int index = 0;
+			for(Node<E> x = head; x.data != null; x = x.next) {
+				if(value.equals(x.data)) {
+					return index;
+				}
+				index++;
+			}
+			return -1;			
+		}
+		public boolean contains(Object value) {
+			return indexOf(value) >= 0 ;
+		}
+		public int size() {
+			return size;
+		}
+		public boolean is_empty() {return size==0;}
+		public void clear() {
+			for(Node<E> x = head; x!=null;) {
+				Node<E> nextNode = x.next;
+				x.data = null;
+				x.next = null;
+				x = nextNode;
+				
+			}
+			head = tail = null;
+			size = 0;
+		}
+		public Object[] toArray() {
+			Object[] array = new Object[size];
+			int idx = 0;
+			for(Node<E> x =head; x != null;x = x.next ) {
+				array[idx++] = (E)x.data;
+			}
+			return array;
+		}
+		public <T> T[] toArray(T[] a){//상위 타입을 담기 위해 generic T type을 사욜한다.
+			if(a.length < size) {
+				a = (T[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+				//a가 리스트의 size보다 작으면 a공간을 재할당하면서 리스트에 있던 모든 요소를 복사한다 
+				//인자로 준 generic array에 담아서 이를 반환해주는 함수라고할 수 있다.
+				//위 함수는 리스트를 복사하여 size에 알맞은 배열에 넣어준다.
+			}
+		int i = 0;
+		Object[] result = a;
 		
+		for (Node<E> x = head; x != null; x = x.next) {
+			result[i++] = x.data;
+			}
+			return a;
 		
+		}
+		//배열로 만든것을 array.sort()함수로 정렬해준다.
+		public void sort() {
+			sort(null);
+		}
+		
+		public void sort(Comparator<? super E> c)//이쪽은 잘 모르겟음 {
+			Object[] a = this.toArray();
+			Arrays.sort(a , (comparator) c);
+			int i = 0;
+			for (Node<E> x = head; x != null; x = x.next, i++) {
+			x.data = (E) a[i];
+		}
 }
 
 
