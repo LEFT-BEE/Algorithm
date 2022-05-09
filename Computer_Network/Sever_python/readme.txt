@@ -13,5 +13,5 @@ if you want register your data, follow bellow instruction.
 4. You can change your id and password by using "PUT" method
 5. If you want change id, put "Content-using :change_id" in header!!
 6. If you done register your data in server, you can access todolist html
-7. If your want to delete your data use "DELETE" methodself.response_header['Content-type'] =  "txt/plain"
+7. If your want to delete your data use "DELETE" method
 -----------------------------------------------
